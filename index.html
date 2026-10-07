@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="km">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kom Lymeng | Web Developer Portfolio</title>
+    
+    <!-- Google Fonts for Khmer & English -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --bg-primary: #0b0f19;
+            --bg-secondary: #111827;
+            --bg-glass: rgba(17, 24, 39, 0.75);
+            --bg-card: rgba(31, 41, 55, 0.5);
+            
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+            --text-heading: #ffffff;
+            
+            --accent: #3b82f6;
+            --accent-teal: #10b981;
+            --accent-gradient: linear-gradient(135deg, #3b82f6 0%, #10b981 100%);
+            
+            --border-color: rgba(255, 255, 255, 0.08);
+            --border-hover: rgba(59, 130, 246, 0.3);
+            
+            --font-khmer: 'Kantumruy Pro', sans-serif;
+            --font-english: 'Plus Jakarta Sans', sans-serif;
+            
+            --sidebar-width: 380px;
+            --radius-md: 16px;
+            --radius-lg: 24px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Light Theme Override */
+        body.light-theme {
+            --bg-primary: #f8fafc;
+            --bg-secondary: #ffffff;
+            --bg-glass: rgba(255, 255, 255, 0.85);
+            --bg-card: rgba(241, 245, 249, 0.8);
+            
+            --text-main: #334155;
+            --text-muted: #64748b;
+            --text-heading: #0f172a;
+            
+            --border-color: rgba(0, 0, 0, 0.08);
+            --border-hover: rgba(59, 130, 246, 0.4);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-khmer), var(--font-english);
+            background-color: var(--bg-primary);
+            color: var(--text-main);
+            line-height: 1.7;
+            min-height: 100vh;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .layout-wrapper {
+            display: flex;
+            min-height: 100vh;
+            max-width: 1440px;
+            margin: 0 auto;
+        }
+
+        /* Fixed Sidebar */
+        .sidebar {
+            width: var(--sidebar-width);
+            height: 100vh;
+            position: sticky;
+            top: 0;
+            padding: 2.5rem 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            background: var(--bg-secondary);
+            border-right: 1px solid var(--border-color);
+            z-index: 100;
+            overflow-y: auto;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 3rem 4rem;
+            max-width: 1000px;
+        }
+
+        /* Profile Block */
+        .profile-card {
+            text-align: center;
+        }
+
+        .avatar-box {
+            position: relative;
+            width: 140px;
+            height: 140px;
+            margin: 0 auto 1.5rem auto;
+        }
+
+        .avatar-img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--accent);
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.2);
+        }
+
+        .status-badge {
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+            background: #10b981;
+            color: white;
+            font-size: 0.7rem;
+            padding: 0.2rem 0.6rem;
+            border-radius: 99px;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            border: 2px solid var(--bg-secondary);
+        }
+
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            background: white;
+            border-radius: 50%;
+            animation: blink 1.5s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        .name-kh {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--text-heading);
+            margin-bottom: 0.2rem;
+        }
+
+        .name-en {
+            font-size: 1rem;
+            color: var(--accent);
+            font-weight: 600;
+            margin-bottom: 1rem;
+            font-family: var(--font-english);
+        }
+
+        .role-tag {
+            display: inline-block;
+            background: var(--bg-card);
+            padding: 0.4rem 1rem;
+            border-radius: 99px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            border: 1px solid var(--border-color);
+            margin-bottom: 1.5rem;
+        }
+
+        /* Sidebar Navigation */
+        .nav-links {
+            list-style: none;
+            margin: 2rem 0;
+        }
+
+        .nav-link a {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.75rem 1rem;
+            border-radius: 12px;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        .nav-link a:hover, .nav-link a.active {
+            color: var(--text-heading);
+            background: var(--bg-card);
+            border-left: 3px solid var(--accent);
+        }
+
+        /* Quick Info List */
+        .sidebar-info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            border-top: 1px solid var(--border-color);
+            padding-top: 1.5rem;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .info-item i {
+            color: var(--accent);
+            width: 16px;
+        }
+
+        /* Controls Area */
+        .sidebar-controls {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .btn-ctrl {
+            flex: 1;
+            padding: 0.6rem;
+            border-radius: 10px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            font-family: inherit;
+            font-size: 0.85rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.4rem;
+            transition: var(--transition);
+        }
+
+        .btn-ctrl:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .section-block {
+            margin-bottom: 4rem;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .section-header h2 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--text-heading);
+        }
+
+        .section-header .line {
+            flex: 1;
+            height: 1px;
+            background: var(--border-color);
+        }
+
+        /* Timeline Components */
+        .timeline {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            position: relative;
+        }
+
+        .timeline-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 1.5rem;
+            backdrop-filter: blur(10px);
+            transition: var(--transition);
+        }
+
+        .timeline-card:hover {
+            border-color: var(--border-hover);
+            transform: translateY(-2px);
+        }
+
+        .timeline-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.5rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .job-title {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: var(--text-heading);
+        }
+
+        .company-name {
+            color: var(--accent-teal);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .date-badge {
+            font-size: 0.75rem;
+            padding: 0.2rem 0.6rem;
+            border-radius: 6px;
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--accent);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            font-family: var(--font-english);
+        }
+
+        .timeline-desc {
+            font-size: 0.92rem;
+            color: var(--text-muted);
+            margin-top: 0.8rem;
+            line-height: 1.6;
+        }
+
+        /* Skills Grid */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.25rem;
+        }
+
+        .skill-box {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            padding: 1.25rem;
+            border-radius: var(--radius-md);
+        }
+
+        .skill-head {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 0.6rem;
+        }
+
+        .progress-track {
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 99px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--accent-gradient);
+            border-radius: 99px;
+        }
+
+        /* Project Cards */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .project-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        .project-card:hover {
+            border-color: var(--border-hover);
+            transform: translateY(-4px);
+        }
+
+        .project-body {
+            padding: 1.5rem;
+        }
+
+        .project-title {
+            font-size: 1.1rem;
+            color: var(--text-heading);
+            margin-bottom: 0.5rem;
+        }
+
+        .project-text {
+            font-size: 0.88rem;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+
+        .tag-list {
+            display: flex;
+            gap: 0.4rem;
+            flex-wrap: wrap;
+        }
+
+        .tag-item {
+            font-size: 0.72rem;
+            padding: 0.15rem 0.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 4px;
+            color: var(--text-muted);
+            font-family: var(--font-english);
+        }
+
+        /* Print Styles */
+        @media print {
+            body {
+                background: white;
+                color: black;
+            }
+            .sidebar {
+                position: static;
+                width: 100%;
+                height: auto;
+                border: none;
+            }
+            .layout-wrapper {
+                flex-direction: column;
+            }
+            .sidebar-controls, .nav-links {
+                display: none;
+            }
+            .main-content {
+                padding: 0;
+            }
+            .timeline-card, .skill-box, .project-card {
+                border: 1px solid #ddd;
+                background: none;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .layout-wrapper {
+                flex-direction: column;
+            }
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                border-right: none;
+                border-bottom: 1px solid var(--border-color);
+            }
+            .main-content {
+                padding: 2rem 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="layout-wrapper">
+        
+        <!-- Sidebar Profile Panel -->
+        <aside class="sidebar">
+            <div class="profile-card">
+                <div class="avatar-box">
+                    <img src="./IMG_7155.JPG" alt="Sok Chandara" class="avatar-img" onerror="this.src='https://placehold.co/140x140/312e81/ffffff?text=SC'">
+                    <div class="status-badge">
+                        <span class="status-dot"></span> ទំនេរ
+                    </div>
+                </div>
+
+                <h1 class="name-kh">កន លីម៉េង</h1>
+                <div class="name-en">Korn Lymeg </div>
+                <div class="role-tag"><i class="fa-solid fa-code"></i> Senior Web Developer</div>
+
+                <!-- Nav Menu -->
+                <ul class="nav-links">
+                    <li class="nav-link"><a href="#about" class="active"><i class="fa-regular fa-user"></i> អំពីខ្ញុំ (About)</a></li>
+                    <li class="nav-link"><a href="#experience"><i class="fa-solid fa-briefcase"></i> បទពិសោធន៍ (Experience)</a></li>
+                    <li class="nav-link"><a href="#skills"><i class="fa-solid fa-layer-group"></i> ជំនាញ (Skills)</a></li>
+                    <li class="nav-link"><a href="#projects"><i class="fa-solid fa-folder-open"></i> គម្រោង (Projects)</a></li>
+                </ul>
+            </div>
+
+            <div class="sidebar-footer">
+                <div class="sidebar-info">
+                    <div class="info-item">
+                        <i class="fa-solid fa-envelope"></i>
+                        <span>chandara.sok@example.com</span>
+                    </div>
+                    <div class="info-item">
+                        <i class="fa-solid fa-phone"></i>
+                        <span>+855 12 345 678</span>
+                    </div>
+                    <div class="info-item">
+                        <i class="fa-solid fa-location-dot"></i>
+                        <span>រាជធានីភ្នំពេញ, កម្ពុជា</span>
+                    </div>
+                </div>
+
+                <div class="sidebar-controls">
+                    <button class="btn-ctrl" onclick="toggleTheme()" title="Toggle Dark/Light Mode">
+                        <i class="fa-solid fa-moon"></i> ផ្លាស់ប្តូរពន្លឺ
+                    </button>
+                    <button class="btn-ctrl" onclick="window.print()" title="Print Resume">
+                        <i class="fa-solid fa-print"></i> Print PDF
+                    </button>
+                </div>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            
+            <!-- About Section -->
+            <section class="section-block" id="about">
+                <div class="section-header">
+                    <h2>អំពីខ្ញុំ (About Me)</h2>
+                    <div class="line"></div>
+                </div>
+                <p style="color: var(--text-muted); font-size: 1rem; line-height: 1.8;">
+                    ខ្ញុំជាអ្នកអភិវឌ្ឍន៍គេហទំព័រ (Full Stack Developer) ដែលមានបទពិសោធន៍ជាង ៥ ឆ្នាំ ក្នុងការបង្កើតកម្មវិធី និងគេហទំព័រទំនើបៗ។ ខ្ញុំមានជំនាញច្បាស់លាស់លើការប្រើប្រាស់ JavaScript, React, Node.js, និង CSS frameworks ផ្សេងៗ ដើម្បីបង្កើតផលតបស្នងលឿន រលូន និងមានសុវត្ថិភាពខ្ពស់។
+                </p>
+            </section>
+
+            <!-- Experience Section -->
+            <section class="section-block" id="experience">
+                <div class="section-header">
+                    <h2>បទពិសោធន៍ការងារ (Work Experience)</h2>
+                    <div class="line"></div>
+                </div>
+
+                <div class="timeline">
+                    <!-- Item 1 -->
+                    <div class="timeline-card">
+                        <div class="timeline-head">
+                            <div>
+                                <div class="job-title">Senior Full Stack Developer</div>
+                                <div class="company-name">Khmer Digital Tech Co., Ltd</div>
+                            </div>
+                            <span class="date-badge">2022 - បច្ចុប្បន្ន</span>
+                        </div>
+                        <p class="timeline-desc">
+                            ដឹកនាំក្រុមការងារក្នុងការបង្កើតប្រព័ន្ធគ្រប់គ្រងទិន្នន័យសាជីវកម្ម។ កែសម្រួលល្បឿនគេហទំព័រឱ្យលឿនជាងមុន ៤០% និងសរសេរកូដដែលមានរចនាសម្ព័ន្ធស្អាតងាយស្រួលក្នុងការថែទាំ។
+                        </p>
+                    </div>
+
+                    <!-- Item 2 -->
+                    <div class="timeline-card">
+                        <div class="timeline-head">
+                            <div>
+                                <div class="job-title">Frontend Developer</div>
+                                <div class="company-name">Cambodia Creative Studio</div>
+                            </div>
+                            <span class="date-badge">2019 - 2022</span>
+                        </div>
+                        <p class="timeline-desc">
+                            រចនានិងអភិវឌ្ឍន៍ UI/UX សម្រាប់គេហទំព័រពាណិជ្ជកម្ម (E-commerce) និងកម្មវិធីទូរស័ព្ទ។ ធ្វើការយ៉ាងជិតស្និទ្ធជាមួយក្រុមរចនាដើម្បីធានាថាគេហទំព័រមានភាពទាក់ទាញនៅលើគ្រប់ទំហំអេក្រង់។
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Skills Section -->
+            <section class="section-block" id="skills">
+                <div class="section-header">
+                    <h2>ជំនាញបច្ចេកវិទ្យា (Technical Skills)</h2>
+                    <div class="line"></div>
+                </div>
+
+                <div class="skills-grid">
+                    <div class="skill-box">
+                        <div class="skill-head">
+                            <span>HTML5 / CSS3 / Modern CSS</span>
+                            <span style="color: var(--accent);">95%</span>
+                        </div>
+                        <div class="progress-track"><div class="progress-bar" style="width: 95%;"></div></div>
+                    </div>
+
+                    <div class="skill-box">
+                        <div class="skill-head">
+                            <span>JavaScript (ES6+) / TypeScript</span>
+                            <span style="color: var(--accent);">90%</span>
+                        </div>
+                        <div class="progress-track"><div class="progress-bar" style="width: 90%;"></div></div>
+                    </div>
+
+                    <div class="skill-box">
+                        <div class="skill-head">
+                            <span>React.js / Next.js</span>
+                            <span style="color: var(--accent);">85%</span>
+                        </div>
+                        <div class="progress-track"><div class="progress-bar" style="width: 85%;"></div></div>
+                    </div>
+
+                    <div class="skill-box">
+                        <div class="skill-head">
+                            <span>Node.js / Express</span>
+                            <span style="color: var(--accent);">80%</span>
+                        </div>
+                        <div class="progress-track"><div class="progress-bar" style="width: 80%;"></div></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Projects Section -->
+            <section class="section-block" id="projects">
+                <div class="section-header">
+                    <h2>គម្រោងធ្លាប់ធ្វើ (Projects)</h2>
+                    <div class="line"></div>
+                </div>
+
+                <div class="projects-grid">
+                    <div class="project-card">
+                        <div class="project-body">
+                            <h3 class="project-title">ប្រព័ន្ធគ្រប់គ្រងហាងទំនិញ</h3>
+                            <p class="project-text">កម្មវិធី POS សម្រាប់គ្រប់គ្រងការលក់ និងស្តុកទំនិញតាមអនឡាញ ដំណើរការលឿននិងស្រួលប្រើ។</p>
+                            <div class="tag-list">
+                                <span class="tag-item">React</span>
+                                <span class="tag-item">Node.js</span>
+                                <span class="tag-item">MongoDB</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="project-card">
+                        <div class="project-body">
+                            <h3 class="project-title">គេហទំព័រព័ត៌មានបច្ចេកវិទ្យា</h3>
+                            <p class="project-text">គេហទំព័របង្ហាញព័ត៌មានបច្ចេកវិទ្យាថ្មីៗជាភាសាខ្មែរ ដោយមានមុខងារ Search និង Bookmark។</p>
+                            <div class="tag-list">
+                                <span class="tag-item">Next.js</span>
+                                <span class="tag-item">Tailwind CSS</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        // Toggle Dark and Light Theme
+        function toggleTheme() {
+            document.body.classList.toggle('light-theme');
+        }
+    </script>
+</body>
+</html>
